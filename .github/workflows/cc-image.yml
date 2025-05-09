@@ -6,9 +6,9 @@ on:
 
 env:
   # 复制的源镜像 
-  ORIGINIMAGE: knoxzhang/oo-license:v8.3.3.5
+  ORIGINIMAGE: nginx:1.28.0
   # 复制的目标镜像 
-  TAGETIMAGE: knoxzhang/oo-license:v8.3.3.5
+  TAGETIMAGE: knoxzhang/nginx:1.28.0
 
 jobs:
   push_to_registry:
