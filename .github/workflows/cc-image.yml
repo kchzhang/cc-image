@@ -1,0 +1,43 @@
+name: Publish Docker image
+
+on:
+  push:
+    branches: [main]
+
+env:
+  # 复制的源镜像 
+  ORIGINIMAGE: knoxzhang/oo-license:v8.3.3.5
+  # 复制的目标镜像 
+  TAGETIMAGE: knoxzhang/oo-license:v8.3.3.5
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          registry: ${{ secrets.DOCKER_ALIYUN_REGISTRY }}
+          username: ${{ secrets.DOCKER_ALIYUN_USERNAME }}
+          password: ${{ secrets.DOCKER_ALIYUN_PASSWORD }}
+
+
+      - name: Pull Docker image
+        run: |
+          docker pull ${{ env.ORIGINIMAGE }}
+          docker tag ${{ env.ORIGINIMAGE }} ${{ secrets.DOCKER_ALIYUN_REGISTRY }}/${{ env.TAGETIMAGE }}
+          echo "Pulled and tagged ${{ env.ORIGINIMAGE }} as ${{ secrets.DOCKER_ALIYUN_REGISTRY }}/${{ env.TAGETIMAGE }}"
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_ALIYUN_REGISTRY }}/${{ env.TAGETIMAGE }}
+          echo "Pushed ${{ secrets.DOCKER_ALIYUN_REGISTRY }}/${{ env.TAGETIMAGE }} to Docker Hub"
