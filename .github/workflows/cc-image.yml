@@ -6,9 +6,9 @@ on:
 
 env:
   # 复制的源镜像 
-  ORIGINIMAGE: nginx:1.28.0
+  ORIGINIMAGE: mysql:8.4.3
   # 复制的目标镜像 
-  TAGETIMAGE: knoxzhang/nginx:1.28.0
+  TAGETIMAGE: knoxzhang/mysql:8.4.3
 
 jobs:
   push_to_registry:
